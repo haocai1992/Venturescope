@@ -6,7 +6,9 @@ import os
 import ast
 
 # cb dataframe for all companies that passed series B and has tweeted between series A and B in the year of 2014.
-companies_path = processed_data_dir + '/companies_2014_series_b_tweeted.csv'
+# companies_path = processed_data_dir + '/companies_2014_series_b_tweeted.csv'
+companies_path = processed_data_dir + '/companies_2014_series_ab_tweeted.csv'
+# companies_path = processed_data_dir + '/companies_2014_series_all_tweeted.csv'
 companies_series_b_tweeted = pd.read_csv(companies_path)
 
 # functions to generate features/scores for a company's tweeting behavior before and after Series A.
@@ -15,10 +17,21 @@ class CompanyTweet:
     def __init__(self, twitter_username):
         self.series_a_datetime = self.get_series_a_datetime(twitter_username)
         self.tweets = self.get_tweets(twitter_username)
-        self.preA_tweets = self.tweets[self.tweets.timestamp < self.series_a_datetime]
-        self.postA_tweets = self.tweets[self.tweets.timestamp >= self.series_a_datetime]
-        self.preA_timespan = (self.series_a_datetime.date() - self.preA_tweets.timestamp.dt.date.min()).days
-        self.postA_timespan = (self.postA_tweets.timestamp.dt.date.max() - self.series_a_datetime.date()).days
+        self.preA_tweets = None
+        self.postA_tweets = None
+        self.preA_timespan = None
+        self.postA_timespan = None
+        try:
+            self.preA_tweets = self.tweets[self.tweets.timestamp < self.series_a_datetime]
+            self.preA_timespan = (self.series_a_datetime.date() - self.preA_tweets.timestamp.dt.date.min()).days
+        except:
+            pass
+
+        try:
+            self.postA_tweets = self.tweets[self.tweets.timestamp >= self.series_a_datetime]
+            self.postA_timespan = (self.postA_tweets.timestamp.dt.date.max() - self.series_a_datetime.date()).days
+        except:
+            pass
 
     @staticmethod
     def get_series_a_datetime(twitter_username):
@@ -47,12 +60,16 @@ class CompanyTweet:
     @staticmethod
     def get_tweet_freq(tweets, timespan):
         """get the frequency of tweets (weekly)."""
+        if timespan is None:
+            return None
         tweet_freq_weekly = float(len(tweets)) * 7.0 / float(timespan)
         return tweet_freq_weekly
 
     @staticmethod
     def get_tweet_avglength(tweets):
         """get the average length of tweets."""
+        if not tweets.text.apply(len).mean() == tweets.text.apply(len).mean():
+            return None
         return tweets.text.apply(len).mean()
 
     @staticmethod
@@ -63,8 +80,10 @@ class CompanyTweet:
                                  .applymap(lambda x: len(ast.literal_eval(x)))\
                                  .sum(axis=1) + \
                                  tweets.has_media.astype(int) + \
-                                 tweets.video_url.fillna(0).astype(int)
+                                 tweets.video_url.notnull().astype(int)
         avg_richness = tweet_content_richness.mean()
+        if not avg_richness == avg_richness:
+            return None
         return avg_richness
 
     @staticmethod
@@ -75,16 +94,23 @@ class CompanyTweet:
                                 tweets[['is_replied', 'is_reply_to']].astype(int).sum(axis=1) + \
                                 tweets['reply_to_users'].apply(lambda x: len(ast.literal_eval(x)))
         avg_interactiveness = tweet_interactiveness.mean()
+        if not avg_interactiveness == avg_interactiveness:
+            return None
         return avg_interactiveness
 
     def comprehensive_scores(self):
         """output comprehensive scores for a company's tweeting behavior pre vs. post series A."""
         scores = {}
+        scores['series_a_datetime'] = self.series_a_datetime
+        scores['preA_timespan'] = self.preA_timespan
+        scores['postA_timespan'] = self.postA_timespan
         scores['all_tweet_num'] = len(self.tweets)
         scores['preA_tweet_num'] = len(self.preA_tweets)
         scores['postA_tweet_num'] = len(self.postA_tweets)
         scores['preA_tweet_freq'] = self.get_tweet_freq(self.preA_tweets, self.preA_timespan)
         scores['postA_tweet_freq'] = self.get_tweet_freq(self.postA_tweets, self.postA_timespan)
+        scores['preA_tweet_avglength'] = self.get_tweet_avglength(self.preA_tweets)
+        scores['postA_tweet_avglength'] = self.get_tweet_avglength(self.postA_tweets)
         scores['preA_tweet_content_richness'] = self.get_tweet_content_richness(self.preA_tweets)
         scores['postA_tweet_content_richness'] = self.get_tweet_content_richness(self.postA_tweets)
         scores['preA_tweet_interactiveness'] = self.get_tweet_interactiveness(self.preA_tweets)
@@ -93,10 +119,7 @@ class CompanyTweet:
 
 def main():
     for i, row in companies_series_b_tweeted.iterrows():
-        try:
-            CT = CompanyTweet(row.twitter_username)
-            print(i, row.twitter_username, row.first2last_funding_days, CT.comprehensive_scores())
-        except:
-            print(i, row.twitter_username, row.first2last_funding_days, 'ERROR')
+        CT = CompanyTweet(row.twitter_username)
+        print(i, row.twitter_username, row.first2last_funding_days, CT.comprehensive_scores())
     # print(example.comprehensive_scores())
 main()
