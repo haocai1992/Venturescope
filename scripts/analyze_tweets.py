@@ -9,7 +9,7 @@ import ast
 # companies_path = processed_data_dir + '/companies_2014_series_b_tweeted.csv'
 companies_path = processed_data_dir + '/companies_2014_series_ab_tweeted.csv'
 # companies_path = processed_data_dir + '/companies_2014_series_all_tweeted.csv'
-companies_series_b_tweeted = pd.read_csv(companies_path)
+companies_series_x_tweeted = pd.read_csv(companies_path)
 
 # functions to generate features/scores for a company's tweeting behavior before and after Series A.
 class CompanyTweet:
@@ -36,8 +36,8 @@ class CompanyTweet:
     @staticmethod
     def get_series_a_datetime(twitter_username):
         """look up companies df and returns the datetime of series A for this company."""
-        series_a_datetime = companies_series_b_tweeted\
-                            .loc[companies_series_b_tweeted.twitter_username == twitter_username, 'first_funding_at']\
+        series_a_datetime = companies_series_x_tweeted\
+                            .loc[companies_series_x_tweeted.twitter_username == twitter_username, 'first_funding_at']\
                             .values[0]
         return pd.to_datetime(series_a_datetime)
 
@@ -101,7 +101,7 @@ class CompanyTweet:
     def comprehensive_scores(self):
         """output comprehensive scores for a company's tweeting behavior pre vs. post series A."""
         scores = {}
-        scores['series_a_datetime'] = self.series_a_datetime
+        scores['series_a_date'] = self.series_a_datetime.strftime("%Y-%m-%d")
         scores['preA_timespan'] = self.preA_timespan
         scores['postA_timespan'] = self.postA_timespan
         scores['all_tweet_num'] = len(self.tweets)
@@ -118,8 +118,12 @@ class CompanyTweet:
         return scores
 
 def main():
-    for i, row in companies_series_b_tweeted.iterrows():
+    """save tweets analysis results to a dataframe."""
+    twitter_l = []
+    for i, row in companies_series_x_tweeted.iterrows():
         CT = CompanyTweet(row.twitter_username)
         print(i, row.twitter_username, row.first2last_funding_days, CT.comprehensive_scores())
-    # print(example.comprehensive_scores())
-main()
+        twitter_l.append(CT.comprehensive_scores())
+    twitter_df = pd.DataFrame(twitter_l)
+    twitter_df.to_csv(processed_data_dir + '/tweets_2014_series_ab.csv', index=False)
+# main()
