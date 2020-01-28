@@ -6,9 +6,7 @@ import os
 import ast
 
 # cb dataframe for all companies that passed series B and has tweeted between series A and B in the year of 2014.
-# companies_path = processed_data_dir + '/companies_2014_series_b_tweeted.csv'
-companies_path = processed_data_dir + '/companies_2014_series_ab_tweeted.csv'
-# companies_path = processed_data_dir + '/companies_2014_series_all_tweeted.csv'
+companies_path = processed_data_dir + '/companies_2014_labeled.csv'
 companies_series_x_tweeted = pd.read_csv(companies_path)
 
 # functions to generate features/scores for a company's tweeting behavior before and after Series A.
@@ -60,7 +58,7 @@ class CompanyTweet:
     @staticmethod
     def get_tweet_freq(tweets, timespan):
         """get the frequency of tweets (weekly)."""
-        if timespan is None:
+        if (timespan is None) or (timespan <= 0):
             return None
         tweet_freq_weekly = float(len(tweets)) * 7.0 / float(timespan)
         return tweet_freq_weekly
@@ -68,9 +66,9 @@ class CompanyTweet:
     @staticmethod
     def get_tweet_avglength(tweets):
         """get the average length of tweets."""
-        if not tweets.text.apply(len).mean() == tweets.text.apply(len).mean():
+        if not tweets.text.apply(lambda x: len(str(x))).mean() == tweets.text.apply(lambda x: len(str(x))).mean():
             return None
-        return tweets.text.apply(len).mean()
+        return tweets.text.apply(lambda x: len(str(x))).mean()
 
     @staticmethod
     def get_tweet_content_richness(tweets):
@@ -125,5 +123,5 @@ def main():
         print(i, row.twitter_username, row.first2last_funding_days, CT.comprehensive_scores())
         twitter_l.append(CT.comprehensive_scores())
     twitter_df = pd.DataFrame(twitter_l)
-    twitter_df.to_csv(processed_data_dir + '/tweets_2014_series_ab.csv', index=False)
-# main()
+    twitter_df.to_csv(processed_data_dir + '/company_tweets_stats_all.csv', index=False)
+main()
