@@ -6,7 +6,7 @@ import os
 import ast
 
 # cb dataframe for all companies that passed series B and has tweeted between series A and B in the year of 2014.
-companies_path = processed_data_dir + '/companies_2014_labeled.csv'
+companies_path = processed_data_dir + '/companies_all_labeled.csv'
 companies_series_x_tweeted = pd.read_csv(companies_path)
 
 # functions to generate features/scores for a company's tweeting behavior before and after Series A.
@@ -115,6 +115,10 @@ class CompanyTweet:
         scores['postA_tweet_interactiveness'] = self.get_tweet_interactiveness(self.postA_tweets)
         return scores
 
+    def cat_top100_postA_tweets(self):
+        """concatenate the first 100 tweets' text after series A and outputs a string."""
+        return self.postA_tweets.text[:100].str.cat(sep=' ')
+
 def main():
     """save tweets analysis results to a dataframe."""
     twitter_l = []
@@ -124,4 +128,29 @@ def main():
         twitter_l.append(CT.comprehensive_scores())
     twitter_df = pd.DataFrame(twitter_l)
     twitter_df.to_csv(processed_data_dir + '/company_tweets_stats_all.csv', index=False)
-main()
+
+def main2():
+    """save successful and unsuccessful companies' tweets to 2 dataframes."""
+    df = companies_series_x_tweeted
+    pos_companies = df[(df.WILL == 1.0) & (df.postA_tweet_num > 100)].copy()
+    neg_companies = df[(df.WILL == 0.0) & (df.postA_tweet_num > 100)].copy()
+
+    pos_tweets = []
+    for username in pos_companies.twitter_username:
+        CT = CompanyTweet(username)
+        pos_tweets.append(CT.cat_top100_postA_tweets())
+
+    neg_tweets = []
+    for username in neg_companies.twitter_username:
+        CT = CompanyTweet(username)
+        neg_tweets.append(CT.cat_top100_postA_tweets())
+
+    pos_tweets_df = pd.Series(pos_tweets, index=pos_companies.index).reset_index()
+    neg_tweets_df = pd.Series(neg_tweets, index=neg_companies.index).reset_index()
+
+    pos_tweets_df.to_csv(processed_data_dir + '/tweets_positive.csv', index=False)
+    neg_tweets_df.to_csv(processed_data_dir + '/tweets_negative.csv', index=False)
+    return None
+
+# main()
+main2()
