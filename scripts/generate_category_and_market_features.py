@@ -1,5 +1,7 @@
 """This script analyzes the 'category' and 'market' columns (text data), and engineers two numerical\
 features (using NLP word2vec-clustering) to included in classification models."""
+import sys
+sys.path.append("/Users/caihao/PycharmProjects/insight_project/")
 from data.config import raw_data_dir, processed_data_dir, cleaned_data_dir, tweets_data_dir
 import spacy
 # from gensim.models import KeyedVectors
@@ -40,7 +42,7 @@ def get_category_score(companies_df):
     """Add "category score" to the companies df."""
     category_count_dict = pd.Series(category_counts.pos_minus_neg_count.values, index=category_counts.key).to_dict()
 
-    f = open(processed_data_dir + '/companies_all_category_scores.txt', 'w')
+    f = open(processed_data_dir + '/companies_all_category_scores_new.txt', 'w')
     for i, category_list in enumerate(companies_df.category_list.fillna('|').to_list()):
         categories = re.split('\||\+', category_list)
         score = 0.0
@@ -60,7 +62,7 @@ def get_market_score(companies_df):
     """add "market score" to the companies df."""
     market_count_dict = pd.Series(market_counts.pos_minus_neg_count.values, index=market_counts.key).to_dict()
 
-    f = open(processed_data_dir + '/companies_all_market_scores_1.txt', 'w')
+    f = open(processed_data_dir + '/companies_all_market_scores_new.txt', 'w')
     for i, market_list in enumerate(companies_df.market.fillna('+').to_list()):
         markets = re.split('\+', market_list)
         score = 0.0
@@ -76,5 +78,5 @@ def get_market_score(companies_df):
     f.close()
     return
 
-# get_category_score(companies_df)
-get_market_score(companies_df)
+get_category_score(companies_df)
+# get_market_score(companies_df)

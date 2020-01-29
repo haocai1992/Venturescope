@@ -16,9 +16,13 @@ import nltk
 # nltk.download('wordnet')
 stemmer = SnowballStemmer('english')
 
-pos_tweets = pd.read_csv(processed_data_dir + '/tweets_positive_5.csv')
-neg_tweets = pd.read_csv(processed_data_dir + '/tweets_negative_5.csv')
-all_tweets = pd.read_csv(processed_data_dir + '/tweets_all_15.csv').rename(columns={'0':'tweets'})
+pos_tweets = pd.read_csv(processed_data_dir + '/tweets_positive.csv').rename(columns={'0':'tweets'})
+print(pos_tweets.count())
+neg_tweets = pd.read_csv(processed_data_dir + '/tweets_negative.csv').rename(columns={'0':'tweets'})
+print(neg_tweets.count())
+all_tweets = pd.read_csv(processed_data_dir + '/tweets_all.csv').rename(columns={'0':'tweets'})
+print(all_tweets.count())
+# exit()
 
 def lemmatize_stemming(text):
     return stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
@@ -41,12 +45,13 @@ class TwitterTopic:
         self.lda_model_tfidf = None
 
         try:
+            print('TRY')
             self.preprocess_tweets()
             self.dictionary = self.get_dictionary()
             self.bow_corpus = self.get_doc2bow()
             self.tfidf_model = self.make_tfidf()
-            self.lda_model = self.make_lda()
-            self.lda_model_tfidf = self.make_lda_tfidf()
+            # self.lda_model = self.make_lda()
+            # self.lda_model_tfidf = self.make_lda_tfidf()
         except:
             pass
 
@@ -59,7 +64,7 @@ class TwitterTopic:
         """Create a dictionary from ‘processed_docs’ containing the number\
          of times a word appears in the training set."""
         dictionary = gensim.corpora.Dictionary(self.tweets.docs)
-        dictionary.filter_extremes(no_below=1, no_above=0.5, keep_n=100000)
+        dictionary.filter_extremes(no_below=15, no_above=0.5, keep_n=100000)
         return dictionary
 
     def get_doc2bow(self):
@@ -95,8 +100,10 @@ class TwitterTopic:
         similarities = sims[query_doc_tf_idf]
         return np.mean(similarities)
 
+print('TEST1')
 pos_TT = TwitterTopic(pos_tweets)
 neg_TT = TwitterTopic(neg_tweets)
+print('TEST2')
 
 def get_tweet_topic_score(all_company_tweets):
     f = open(processed_data_dir + '/companies_tweets_topic_scores.txt', 'w')

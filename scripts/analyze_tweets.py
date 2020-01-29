@@ -117,7 +117,21 @@ class CompanyTweet:
 
     def cat_top100_postA_tweets(self):
         """concatenate the first 100 tweets' text after series A and outputs a string."""
-        return self.postA_tweets.text[:100].str.cat(sep=' ')
+        s = ''
+        try:
+            s = self.postA_tweets.text[:100].str.cat(sep=' ')
+        except:
+            pass
+        return s
+
+    def cat_new50_tweets(self):
+        """"concatenate the latest 50 tweets' text and outputs a string."""
+        s = ''
+        try:
+            s = self.tweets.text[:-50].str.cat(sep=' ')
+        except:
+            pass
+        return s
 
 def main():
     """save tweets analysis results to a dataframe."""
@@ -129,27 +143,31 @@ def main():
     twitter_df = pd.DataFrame(twitter_l)
     twitter_df.to_csv(processed_data_dir + '/company_tweets_stats_all.csv', index=False)
 
+def retrive_tweets(company_df):
+    tweets = []
+    for i, username in enumerate(company_df.twitter_username):
+        CT = CompanyTweet(username)
+        print(i, username)
+        tweets.append(CT.cat_top100_postA_tweets())
+    tweets_df = pd.Series(tweets, index=company_df.index).reset_index()
+    return tweets_df
+
 def main2():
     """save successful and unsuccessful companies' tweets to 2 dataframes."""
     df = companies_series_x_tweeted
     pos_companies = df[(df.WILL == 1.0) & (df.postA_tweet_num > 100)].copy()
     neg_companies = df[(df.WILL == 0.0) & (df.postA_tweet_num > 100)].copy()
+    all_companies = df.copy()
 
-    pos_tweets = []
-    for username in pos_companies.twitter_username:
-        CT = CompanyTweet(username)
-        pos_tweets.append(CT.cat_top100_postA_tweets())
-
-    neg_tweets = []
-    for username in neg_companies.twitter_username:
-        CT = CompanyTweet(username)
-        neg_tweets.append(CT.cat_top100_postA_tweets())
-
-    pos_tweets_df = pd.Series(pos_tweets, index=pos_companies.index).reset_index()
-    neg_tweets_df = pd.Series(neg_tweets, index=neg_companies.index).reset_index()
-
+    pos_tweets_df = retrive_tweets(pos_companies)
+    print(pos_tweets_df.count())
+    neg_tweets_df = retrive_tweets(neg_companies)
+    print(neg_tweets_df.count())
+    all_tweets_df = retrive_tweets(all_companies)
+    print(all_tweets_df.count())
     pos_tweets_df.to_csv(processed_data_dir + '/tweets_positive.csv', index=False)
     neg_tweets_df.to_csv(processed_data_dir + '/tweets_negative.csv', index=False)
+    all_tweets_df.to_csv(processed_data_dir + '/tweets_all.csv', index=False)
     return None
 
 # main()
