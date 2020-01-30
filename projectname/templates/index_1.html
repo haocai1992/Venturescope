@@ -273,14 +273,22 @@
       <h2 class="text-center text-white">Venturescope</h2>
       <hr class="star-light mb-5">
       <div class="col-sm m-3 text-center">
-        <form action="/output" method="GET" id="user_input">
-          <input class="form-control" type="text" id="user_input" name='user_input' placeholder="company name (e.g. #waywire)">
+        <form action="{{ url_for('predict')}}" method="POST">
+          <input type="text" name="companyname" placeholder="company's twitter name (e.g. #waywire)" required="required" /><br>
+          <input type="text" name="countryname" placeholder="company's country (e.g. USA)" required="required" /><br>
+		  <input type="text" name="companyage" placeholder="# of years since founded?" required="required" /><br>
+          <input type="text" name="fundingage" placeholder="# of years since last funding?" required="required" /><br>
+          <input type="text" name="tweetnum" placeholder="# of tweets since last funding?" required="required" /><br>
+          <input type="text" name="inputtweetnum" placeholder="# of tweets you want to paste below?" required="required" /><br>
+          <textarea name="inputtweet" rows="9" placeholder="Paste some of this companies tweets!" cols="80"></textarea>
+          <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
         </form>
+        {{ prediction_text }}
         <br>
       </div>
-      <div class="row justify-content-center">
-        <button type="submit" class="btn btn-secondary btn-lg" form="user_input">Go!</button>
-      </div>
+      <!--<div class="row justify-content-center">-->
+        <!--<button type="submit" class="btn btn-secondary btn-lg" form="user_input">Go!</button>-->
+      <!--</div>-->
 
       {% if my_form_result=='Empty' %}
       <div class="row mt-4 justify-content-center">

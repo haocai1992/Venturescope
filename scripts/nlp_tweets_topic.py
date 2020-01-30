@@ -1,4 +1,4 @@
-"""This script analyzes tweets topics and emotions using NLP."""
+"""This script analyzes tweets topics using NLP."""
 from data.config import raw_data_dir, processed_data_dir, cleaned_data_dir, tweets_data_dir
 import pandas as pd
 import gensim
@@ -9,19 +9,19 @@ additional_stopwords = ['http', 'lnkd']
 stopwords = set(STOPWORDS).union(additional_stopwords)
 
 from nltk.stem import WordNetLemmatizer, SnowballStemmer
+stemmer = SnowballStemmer('english')
 from nltk.stem.porter import *
 import numpy as np
 np.random.seed(2018)
 import nltk
 # nltk.download('wordnet')
-stemmer = SnowballStemmer('english')
 
 pos_tweets = pd.read_csv(processed_data_dir + '/tweets_positive.csv').rename(columns={'0':'tweets'})
-print(pos_tweets.count())
+# print(pos_tweets.count())
 neg_tweets = pd.read_csv(processed_data_dir + '/tweets_negative.csv').rename(columns={'0':'tweets'})
-print(neg_tweets.count())
+# print(neg_tweets.count())
 all_tweets = pd.read_csv(processed_data_dir + '/tweets_all.csv').rename(columns={'0':'tweets'})
-print(all_tweets.count())
+# print(all_tweets.count())
 # exit()
 
 def lemmatize_stemming(text):
@@ -100,12 +100,13 @@ class TwitterTopic:
         similarities = sims[query_doc_tf_idf]
         return np.mean(similarities)
 
-print('TEST1')
-pos_TT = TwitterTopic(pos_tweets)
-neg_TT = TwitterTopic(neg_tweets)
-print('TEST2')
 
 def get_tweet_topic_score(all_company_tweets):
+    print('TEST1')
+    pos_TT = TwitterTopic(pos_tweets)
+    neg_TT = TwitterTopic(neg_tweets)
+    print('TEST2')
+
     f = open(processed_data_dir + '/companies_tweets_topic_scores.txt', 'w')
     for i, row in all_company_tweets.iterrows():
         text = row['tweets']
@@ -123,4 +124,4 @@ def get_tweet_topic_score(all_company_tweets):
 
 def main():
     get_tweet_topic_score(all_tweets)
-main()
+# main()

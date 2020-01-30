@@ -78,5 +78,5 @@ def get_market_score(companies_df):
     f.close()
     return
 
-get_category_score(companies_df)
+# get_category_score(companies_df)
 # get_market_score(companies_df)

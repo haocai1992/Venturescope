@@ -12,8 +12,8 @@ def home_page():
 def recommendation_output():
 #    
     # Pull input
-    company_name =request.args.get('user_input')
-                 
+    company_name=request.args.get('user_input')
+
     # Case if empty
     if company_name =="":
         return render_template("index.html",\
@@ -21,7 +21,7 @@ def recommendation_output():
                         my_form_result="Empty")
     else:
         estimate_time = use_predictor(company_name)
-        some_number=3
+        some_number = 300
         some_image= "panda.gif"
         return render_template("index.html",\
                         my_input=company_name,\

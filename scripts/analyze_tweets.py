@@ -165,10 +165,10 @@ def main2():
     print(neg_tweets_df.count())
     all_tweets_df = retrive_tweets(all_companies)
     print(all_tweets_df.count())
-    pos_tweets_df.to_csv(processed_data_dir + '/tweets_positive.csv', index=False)
-    neg_tweets_df.to_csv(processed_data_dir + '/tweets_negative.csv', index=False)
-    all_tweets_df.to_csv(processed_data_dir + '/tweets_all.csv', index=False)
+    # pos_tweets_df.to_csv(processed_data_dir + '/tweets_positive.csv', index=False)
+    # neg_tweets_df.to_csv(processed_data_dir + '/tweets_negative.csv', index=False)
+    # all_tweets_df.to_csv(processed_data_dir + '/tweets_all.csv', index=False)
     return None
 
 # main()
-main2()
+# main2()
