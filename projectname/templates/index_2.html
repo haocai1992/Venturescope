@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>ML API</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+</head>
+
+<body>
+ <div class="login">
+	<h1>Predict Salary Analysis</h1>
+
+     <!-- Main Input For Receiving Query to our ML -->
+    <!--<form action="{{ url_for('predict')}}"method="post">-->
+    	<!--<input type="text" name="experience" placeholder="Experience" required="required" />-->
+        <!--<input type="text" name="test_score" placeholder="Test Score" required="required" />-->
+		<!--<input type="text" name="interview_score" placeholder="Interview Score" required="required" />-->
+
+        <!--<button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>-->
+    <!--</form>-->
+
+     <form action="{{ url_for('predict')}}" method="POST">
+         <input type="text" name="companyname" placeholder="company's twitter name (e.g. 1DayLater)" required="required" /><br>
+         <input type="text" name="countryname" placeholder="company's country (e.g. USA)" required="required" /><br>
+         <input type="text" name="companycategory" placeholder="company's industry (e.g. Software)" required="required" /><br>
+         <input type="text" name="companyage" placeholder="# of years since founded?" required="required" /><br>
+         <input type="text" name="fundingage" placeholder="# of years since last funding?" required="required" /><br>
+         <input type="text" name="tweetnum" placeholder="# of tweets since last funding?" required="required" /><br>
+         <textarea name="inputtweet" rows="9" placeholder="Paste some of this company's tweets here!" cols="80"></textarea><br>
+         <input type="text" name="inputtweetnum" placeholder="# of tweets you just pasted?" required="required" /><br>
+         <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+     </form>
+        <br>
+        {{ prediction_text }}<br>
+        {{ other_info }}<br>
+        <b>Specfic Scores</b><br>
+        {{ category_ranking }}<br>
+        {{ tweet_number_ranking }}<br>
+        {{ tweet_length_ranking }}<br>
+        {{ tweet_interactiveness_ranking }}<br>
+        {{ tweet_topic_ranking }}<br>
+        {{ tweet_sentiment_ranking }}<br>
+     <br><br>
+ </div>
+
+ <!-- Copyright Section -->
+ <section class="copyright py-4 text-center text-white">
+     <div class="container">
+         <small>Developed by Hao Cai</small>
+     </div>
+ </section>
+
+</body>
+</html>

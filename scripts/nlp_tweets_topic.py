@@ -2,10 +2,10 @@
 from data.config import raw_data_dir, processed_data_dir, cleaned_data_dir, tweets_data_dir
 import pandas as pd
 import gensim
-from gensim.utils import simple_preprocess
+# from gensim.utils import simple_preprocess
 from gensim import corpora, models, similarities
 from gensim.parsing.preprocessing import STOPWORDS
-additional_stopwords = ['http', 'lnkd']
+additional_stopwords = ['http', 'lnkd', 'https', 'html']
 stopwords = set(STOPWORDS).union(additional_stopwords)
 
 from nltk.stem import WordNetLemmatizer, SnowballStemmer
@@ -16,10 +16,12 @@ np.random.seed(2018)
 import nltk
 # nltk.download('wordnet')
 
+import pickle
+
 pos_tweets = pd.read_csv(processed_data_dir + '/tweets_positive.csv').rename(columns={'0':'tweets'})
-# print(pos_tweets.count())
+print(pos_tweets.count())
 neg_tweets = pd.read_csv(processed_data_dir + '/tweets_negative.csv').rename(columns={'0':'tweets'})
-# print(neg_tweets.count())
+print(neg_tweets.count())
 all_tweets = pd.read_csv(processed_data_dir + '/tweets_all.csv').rename(columns={'0':'tweets'})
 # print(all_tweets.count())
 # exit()
@@ -50,7 +52,7 @@ class TwitterTopic:
             self.dictionary = self.get_dictionary()
             self.bow_corpus = self.get_doc2bow()
             self.tfidf_model = self.make_tfidf()
-            # self.lda_model = self.make_lda()
+            self.lda_model = self.make_lda()
             # self.lda_model_tfidf = self.make_lda_tfidf()
         except:
             pass
@@ -79,7 +81,7 @@ class TwitterTopic:
 
     def make_lda(self):
         """Create LDA model object."""
-        lda_model = gensim.models.LdaMulticore(self.bow_corpus, num_topics=20,
+        lda_model = gensim.models.LdaMulticore(self.bow_corpus, num_topics=10,
                                                id2word=self.dictionary, passes=2, workers=2)
         return lda_model
 
@@ -100,6 +102,28 @@ class TwitterTopic:
         similarities = sims[query_doc_tf_idf]
         return np.mean(similarities)
 
+def print_topics():
+    """print the positive and negative topics."""
+    # print('TEST1')
+    # pos_TT = TwitterTopic(pos_tweets)
+    # pos_topics = pos_TT.lda_model.print_topics()
+    # print(pos_topics)
+    # with open(processed_data_dir + '/tweetstopics_positive.pkl', 'wb') as f1:
+    #     pickle.dump(pos_topics, f1)
+
+    pos_topics = pickle.load(open(processed_data_dir + '/tweetstopics_positive.pkl', 'rb'))
+    print('pos', pos_topics)
+
+    # print('TEST2')
+    # neg_TT = TwitterTopic(neg_tweets)
+    # neg_topics = neg_TT.lda_model.print_topics()
+    # print(neg_topics)
+    # with open(processed_data_dir + '/tweetstopics_negative.pkl', 'wb') as f2:
+    #     pickle.dump(neg_topics, f2)
+
+    neg_topics = pickle.load(open(processed_data_dir + '/tweetstopics_negative.pkl', 'rb'))
+    print('neg', neg_topics)
+    return None
 
 def get_tweet_topic_score(all_company_tweets):
     print('TEST1')
@@ -123,5 +147,11 @@ def get_tweet_topic_score(all_company_tweets):
 
 
 def main():
-    get_tweet_topic_score(all_tweets)
-# main()
+    # get_tweet_topic_score(all_tweets)
+    print_topics()
+    # pos_TT = TwitterTopic(pos_tweets)
+    # with open(processed_data_dir + '/TwitterTopic_positive.pkl', 'wb') as f:
+    #     pickle.dump(pos_TT, f)
+    # pos_TT = pickle.load(open(processed_data_dir + '/TwitterTopic_positive.pkl', 'rb'))
+    # print(pos_TT.match_new_tweets('blabla'))
+main()

@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
   <!-- Theme CSS -->
-  <link href="../static/css/freelancer.min.css" rel="stylesheet">
+  <link href="../static/css/freelancer.css" rel="stylesheet">
 
 </head>
 
@@ -274,17 +274,30 @@
       <hr class="star-light mb-5">
       <div class="col-sm m-3 text-center">
         <form action="{{ url_for('predict')}}" method="POST">
-          <input type="text" name="companyname" placeholder="company's twitter name (e.g. #waywire)" required="required" /><br>
-          <input type="text" name="countryname" placeholder="company's country (e.g. USA)" required="required" /><br>
-		  <input type="text" name="companyage" placeholder="# of years since founded?" required="required" /><br>
-          <input type="text" name="fundingage" placeholder="# of years since last funding?" required="required" /><br>
-          <input type="text" name="tweetnum" placeholder="# of tweets since last funding?" required="required" /><br>
-          <input type="text" name="inputtweetnum" placeholder="# of tweets you want to paste below?" required="required" /><br>
-          <textarea name="inputtweet" rows="9" placeholder="Paste some of this companies tweets!" cols="80"></textarea>
-          <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+          <input type="text" name="companyname" style="width: 600px;" placeholder="company's twitter name (e.g. 1DayLater)" required="required" /><br><br>
+          <input type="text" name="countryname" style="width: 600px;" placeholder="company's country (e.g. USA)" required="required" /><br><br>
+          <input type="text" name="companycategory" style="width: 600px;" placeholder="company's industry (e.g. Software)" required="required" /><br><br>
+		  <input type="text" name="companyage" style="width: 600px;" placeholder="# of years since founded? (e.g. 3)" required="required" /><br><br>
+          <input type="text" name="fundingage" style="width: 600px;" placeholder="# of years since last funding? (e.g. 1)" required="required" /><br><br>
+          <input type="text" name="tweetnum" style="width: 600px;" placeholder="# of tweets since last funding? (e.g. 100)" required="required" /><br><br>
+          <textarea name="inputtweet" style="width: 600px;" rows="9" placeholder="Paste some of this company's tweets here!" cols="80"></textarea><br><br>
+          <input type="text" name="inputtweetnum" style="width: 600px;" placeholder="# of tweets you just pasted?" required="required" /><br><br><br>
+          <p align="center">
+          <button type="submit" style="width: 300px; background-color: #f44336; padding: 10px 2px " class="btn btn-primary btn-block btn-large">Predict</button>
+          </p>
         </form>
-        {{ prediction_text }}
+        <pre style="text-align:center">
         <br>
+        {{ prediction_text }}<br>
+        {{ other_info }}<br>
+        <b>Specfic Scores</b><br>
+        {{ category_ranking }}<br>
+        {{ tweet_number_ranking }}<br>
+        {{ tweet_length_ranking }}<br>
+        {{ tweet_interactiveness_ranking }}<br>
+        {{ tweet_topic_ranking }}<br>
+        {{ tweet_sentiment_ranking }}<br>
+          </pre>
       </div>
       <!--<div class="row justify-content-center">-->
         <!--<button type="submit" class="btn btn-secondary btn-lg" form="user_input">Go!</button>-->
