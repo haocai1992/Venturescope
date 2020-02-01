@@ -3,14 +3,16 @@ features (using NLP word2vec-clustering) to included in classification models.""
 import sys
 sys.path.append("/Users/caihao/PycharmProjects/insight_project/")
 from data.config import raw_data_dir, processed_data_dir, cleaned_data_dir, tweets_data_dir
-import spacy
+# import spacy
 # from gensim.models import KeyedVectors
 
+from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
+import numpy as np
 # import pickle
 import re
 
-nlp = spacy.load("en_core_web_md")
+# nlp = spacy.load("en_core_web_md")
 
 companies_df = pd.read_csv(processed_data_dir + '/companies_all_labeled.csv')
 category_counts = pd.read_csv(processed_data_dir + '/category_counts.csv')
@@ -38,19 +40,30 @@ def word_score(word, word_count_dict):
         score_spacy += float(count) * float(similarity_spacy_eng)
     return score_spacy
 
+def word_score_sklearn(word, word_count_df=category_counts):
+    """Score (using sklearn.text) for a word compared to word counts dataframe."""
+    corpus = word_count_df.key.tolist()
+    corpus.append(word)
+    corpus_weight = word_count_df.pos_minus_neg_count.values
+    tfidf = TfidfVectorizer().fit_transform(corpus)
+    pairwise_similarity = (tfidf * tfidf.T).toarray()[-1, :-1]
+    score_sklearn = np.multiply(corpus_weight, pairwise_similarity).sum()
+
+    return score_sklearn
+
 def get_category_score(companies_df):
     """Add "category score" to the companies df."""
     category_count_dict = pd.Series(category_counts.pos_minus_neg_count.values, index=category_counts.key).to_dict()
 
-    f = open(processed_data_dir + '/companies_all_category_scores_new.txt', 'w')
+    f = open(processed_data_dir + '/companies_all_category_scores_sklearn.txt', 'w')
     for i, category_list in enumerate(companies_df.category_list.fillna('|').to_list()):
         categories = re.split('\||\+', category_list)
         score = 0.0
         try:
             for category in categories:
                 if len(category) > 0:
-                    # print(category, word_score(category, category_count_dict))
-                    score += word_score(category, category_count_dict)
+                    # score += word_score(category, category_count_dict)
+                    score += word_score_sklearn(category, word_count_df=category_counts)
         except:
             pass
         print('{:<20} {:<20.8f}'.format(i, score))

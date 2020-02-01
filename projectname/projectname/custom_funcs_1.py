@@ -5,12 +5,50 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 # from sklearn.linear_model import LogisticRegression
+from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
-# import gensim
+
+from nltk.stem import WordNetLemmatizer, SnowballStemmer
+from gensim.utils import simple_preprocess
+from gensim import corpora, models, similarities
+
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 all_companies = pd.read_csv(processed_data_dir + '/companies_all_labeled_final.csv')
 usernames = all_companies.twitter_username
-# TwitterTopic_positive = pickle.load(open(processed_data_dir + '/TwitterTopic_positive.pkl', 'rb'))
+category_counts = pd.read_csv(processed_data_dir + '/category_counts.csv')
+stopwords = pickle.load(open(processed_data_dir+'/stopwords.pkl', 'rb'))
+stemmer = SnowballStemmer('english')
+
+pos_tweets_dict = corpora.Dictionary().load(processed_data_dir + '/tweets_positive_dict.pkl')
+neg_tweets_dict = corpora.Dictionary().load(processed_data_dir + '/tweets_negative_dict.pkl')
+pos_tweets_tfidf_model = models.TfidfModel.load(processed_data_dir + '/tfidf_model_pos_tweets.model')
+neg_tweets_tfidf_model = models.TfidfModel.load(processed_data_dir + '/tfidf_model_neg_tweets.model')
+pos_tweets_sims = similarities.Similarity.load(processed_data_dir + '/tweets_positive_sims.pkl')
+neg_tweets_sims = similarities.Similarity.load(processed_data_dir + '/tweets_negative_sims.pkl')
+
+sid = SentimentIntensityAnalyzer()
+
+def lemmatize_stemming(text):
+    return stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
+
+def preprocess(text):
+    result = []
+    for token in simple_preprocess(text):
+        if token not in stopwords and len(token) > 3:
+            result.append(lemmatize_stemming(token))
+    return result
+
+def match_new_tweets(tweet_text, tweets_sims, tweets_tfidf_model, tweets_dictionary):
+    """calculate similarity score of new tweet to existing tweets (pos/neg)"""
+    # build similarity index.
+    sims = tweets_sims
+    query_doc_bow = tweets_dictionary.doc2bow(preprocess(tweet_text))
+    query_doc_tf_idf = tweets_tfidf_model[query_doc_bow]
+
+    similarities_ = sims[query_doc_tf_idf]
+    # print(np.mean(similarities_))
+    return np.mean(similarities_)
 
 class InputReader:
     """A class to convert user's input to numerical data for Predictor."""
@@ -74,7 +112,13 @@ class InputReader:
 
     @staticmethod
     def cal_category_score(category_name):
-        return all_companies['category_score'].mean()
+        corpus = category_counts.key.tolist()
+        corpus.append(category_name)
+        corpus_weight = category_counts.pos_minus_neg_count.values
+        tfidf = TfidfVectorizer().fit_transform(corpus)
+        pairwise_similarity = (tfidf * tfidf.T).toarray()[-1, :-1]
+        score_sklearn = np.multiply(corpus_weight, pairwise_similarity).sum()
+        return score_sklearn
 
     @staticmethod
     def infer_tweet_freq(tweet_num):
@@ -86,13 +130,21 @@ class InputReader:
         """infers tweet scores from input tweets."""
         tweet_scores = {}
         tweet_scores['length'] = float(len(inputtweet)/int(inputtweetnum))
-        tweet_scores['interactiveness'] = 2.039740404189608
-        tweet_scores['pos_topic_score'] = 0.009813
-        tweet_scores['neg_topic_score'] = 0.010592
-        tweet_scores['neg_sent_score'] = 0.021841
-        tweet_scores['neu_sent_score'] = 0.812420
-        tweet_scores['pos_sent_score'] = 0.151544
-        tweet_scores['compound_sent_score'] = 0.181613
+        tweet_scores['interactiveness'] = float((inputtweet.count('reply') +
+                                                 inputtweet.count('replied') +
+                                                 inputtweet.count('retweet'))/int(inputtweetnum))
+        tweet_scores['pos_topic_score'] = match_new_tweets(tweet_text=inputtweet,
+                                                           tweets_sims=pos_tweets_sims,
+                                                           tweets_tfidf_model=pos_tweets_tfidf_model,
+                                                           tweets_dictionary=pos_tweets_dict)
+        tweet_scores['neg_topic_score'] = match_new_tweets(tweet_text=inputtweet,
+                                                           tweets_sims=neg_tweets_sims,
+                                                           tweets_tfidf_model=neg_tweets_tfidf_model,
+                                                           tweets_dictionary=neg_tweets_dict)
+        tweet_scores['neg_sent_score'] = sid.polarity_scores(inputtweet)['neg']
+        tweet_scores['neu_sent_score'] = sid.polarity_scores(inputtweet)['neu']
+        tweet_scores['pos_sent_score'] = sid.polarity_scores(inputtweet)['pos']
+        tweet_scores['compound_sent_score'] = sid.polarity_scores(inputtweet)['compound']
         return tweet_scores
 
 
@@ -121,16 +173,10 @@ class Predictor:
             predicted_proba = self.model.predict_proba(company_data)[0][1]
             return predicted_proba
 
-def use_predictor(companyname):
-    """func for Flask App call."""
-    p = Predictor(model_file=processed_data_dir + '/model_xgb_2.pkl',
-                  data_file=processed_data_dir + '/model_lr3_rf2_xgb2_data.csv',)
-    return p.predict(companyname=companyname)
-
 def use_predictor_1(input_values):
     """func for Flask App call."""
     p = Predictor(model_file=processed_data_dir + '/model_xgb_2.pkl',
-                  data_file=processed_data_dir + '/model_lr3_rf2_xgb2_data.csv',)
+                  data_file=processed_data_dir + '/model_lr3_rf2_xgb2_data1.csv',)
     IR = InputReader(input_values)
 
     proba, other_info, stats_ = '', '', {}
@@ -160,15 +206,15 @@ def use_predictor_1(input_values):
                             stats.percentileofscore(p.data.tweets_neg_topic_score.values,
                                                     IR.datadict['tweets_neg_topic_score'])])
     stats_['tweets_topic_ranking'] = topic_ranking
-    sentiment_ranking = np.mean([stats.percentileofscore(p.data.tweets_neg_sent_score.values,
-                                                    IR.datadict['tweets_neg_sent_score']),
-                                stats.percentileofscore(p.data.tweets_neu_sent_score.values,
-                                                        IR.datadict['tweets_neu_sent_score']),
-                                stats.percentileofscore(p.data.tweets_pos_sent_score.values,
-                                                        IR.datadict['tweets_pos_sent_score']),
-                                stats.percentileofscore(p.data.tweets_compound_sent_score.values,
-                                                    IR.datadict['tweets_compound_sent_score'])])
-    stats_['tweets_sentiment_ranking'] = sentiment_ranking
+    # sentiment_ranking = np.mean([stats.percentileofscore(p.data.tweets_neg_sent_score.values,
+    #                                                 IR.datadict['tweets_neg_sent_score']),
+    #                             stats.percentileofscore(p.data.tweets_neu_sent_score.values,
+    #                                                     IR.datadict['tweets_neu_sent_score']),
+    #                             stats.percentileofscore(p.data.tweets_pos_sent_score.values,
+    #                                                     IR.datadict['tweets_pos_sent_score']),
+    #                             stats.percentileofscore(p.data.tweets_compound_sent_score.values,
+    #                                                 IR.datadict['tweets_compound_sent_score'])])
+    stats_['tweets_sentiment_ranking'] = IR.datadict['tweets_pos_sent_score']
     # print(proba, other_info, stats_)
     return proba, other_info, stats_
 
