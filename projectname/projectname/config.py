@@ -4,7 +4,8 @@ home_dir = '/Users/caihao'
 original_data_dir = home_dir + '/Dropbox/Insight_Jan2020/data'
 
 raw_data_dir = original_data_dir + '/raw'
-processed_data_dir = original_data_dir + '/processed'
+# processed_data_dir = original_data_dir + '/processed'
+processed_data_dir = '/Users/caihao/PycharmProjects/insight_project/projectname/data'
 cleaned_data_dir = original_data_dir + '/cleaned'
 tweets_data_dir = home_dir + '/Dropbox/TEMP/tweets'
 

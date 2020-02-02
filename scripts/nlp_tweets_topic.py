@@ -56,13 +56,13 @@ neg_tweets_bow_corpus = pickle.load(open(processed_data_dir + '/tweets_negative_
 pos_tweets_tfidf_model = models.TfidfModel.load(processed_data_dir + '/tfidf_model_pos_tweets.model')
 neg_tweets_tfidf_model = models.TfidfModel.load(processed_data_dir + '/tfidf_model_neg_tweets.model')
 
-# index_temp = get_tmpfile("index")
-# pos_tweets_sims = similarities.Similarity(output_prefix=index_temp,
-#                                           corpus=pos_tweets_tfidf_model[pos_tweets_bow_corpus],
-#                                           num_features=len(pos_tweets_dict))
-# neg_tweets_sims = similarities.Similarity(output_prefix=index_temp,
-#                                           corpus=neg_tweets_tfidf_model[neg_tweets_bow_corpus],
-#                                           num_features=len(neg_tweets_dict))
+index_temp = get_tmpfile("index")
+pos_tweets_sims = similarities.Similarity(output_prefix=index_temp,
+                                          corpus=pos_tweets_tfidf_model[pos_tweets_bow_corpus],
+                                          num_features=len(pos_tweets_dict))
+neg_tweets_sims = similarities.Similarity(output_prefix=index_temp,
+                                          corpus=neg_tweets_tfidf_model[neg_tweets_bow_corpus],
+                                          num_features=len(neg_tweets_dict))
 # pos_tweets_sims.save(processed_data_dir + '/tweets_positive_sims.pkl')
 # neg_tweets_sims.save(processed_data_dir + '/tweets_negative_sims.pkl')
 pos_tweets_sims = similarities.Similarity.load(processed_data_dir + '/tweets_positive_sims.pkl')
