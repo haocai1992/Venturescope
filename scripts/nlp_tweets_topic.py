@@ -3,7 +3,8 @@ from data.config import raw_data_dir, processed_data_dir, cleaned_data_dir, twee
 import pandas as pd
 from gensim.utils import simple_preprocess
 from gensim.test.utils import get_tmpfile
-from gensim import corpora, models, similarities
+from gensim import corpora, models
+import gensim
 from gensim.parsing.preprocessing import STOPWORDS
 additional_stopwords = ['http', 'lnkd', 'https', 'html']
 stopwords = set(STOPWORDS).union(additional_stopwords)
@@ -18,10 +19,14 @@ import nltk
 import pickle
 
 # pos_tweets = pd.read_csv(processed_data_dir + '/tweets_positive.csv').rename(columns={'0':'tweets'})
+pos_tweets = pd.read_csv(processed_data_dir + '/tweets_positive.csv').rename(columns={'0':'tweets'})\
+               .sample(frac=0.1).copy()
 # print(pos_tweets.head())
 # neg_tweets = pd.read_csv(processed_data_dir + '/tweets_negative.csv').rename(columns={'0':'tweets'})
+neg_tweets = pd.read_csv(processed_data_dir + '/tweets_negative.csv').rename(columns={'0':'tweets'})\
+               .sample(frac=0.1).copy()
 # print(neg_tweets.head())
-# all_tweets = pd.read_csv(processed_data_dir + '/tweets_all.csv').rename(columns={'0':'tweets'})
+all_tweets = pd.read_csv(processed_data_dir + '/tweets_all.csv').rename(columns={'0':'tweets'})
 # # print(all_tweets.count())
 # pos_tweets_docs = pickle.load(open(processed_data_dir + '/tweets_positive_docs.pkl', 'rb'))
 # neg_tweets_docs = pickle.load(open(processed_data_dir + '/tweets_negative_docs.pkl', 'rb'))
@@ -47,26 +52,26 @@ def get_doc2bow(dict, docs):
     print(bow_corpus)
     return bow_corpus
 
-pos_tweets_dict = corpora.Dictionary().load(processed_data_dir + '/tweets_positive_dict.pkl')
-neg_tweets_dict = corpora.Dictionary().load(processed_data_dir + '/tweets_negative_dict.pkl')
-
-pos_tweets_bow_corpus = pickle.load(open(processed_data_dir + '/tweets_positive_bow_corpus.pkl', 'rb'))
-neg_tweets_bow_corpus = pickle.load(open(processed_data_dir + '/tweets_negative_bow_corpus.pkl', 'rb'))
-
-pos_tweets_tfidf_model = models.TfidfModel.load(processed_data_dir + '/tfidf_model_pos_tweets.model')
-neg_tweets_tfidf_model = models.TfidfModel.load(processed_data_dir + '/tfidf_model_neg_tweets.model')
-
-index_temp = get_tmpfile("index")
-pos_tweets_sims = similarities.Similarity(output_prefix=index_temp,
-                                          corpus=pos_tweets_tfidf_model[pos_tweets_bow_corpus],
-                                          num_features=len(pos_tweets_dict))
-neg_tweets_sims = similarities.Similarity(output_prefix=index_temp,
-                                          corpus=neg_tweets_tfidf_model[neg_tweets_bow_corpus],
-                                          num_features=len(neg_tweets_dict))
+# pos_tweets_dict = corpora.Dictionary().load(processed_data_dir + '/tweets_positive_dict.pkl')
+# neg_tweets_dict = corpora.Dictionary().load(processed_data_dir + '/tweets_negative_dict.pkl')
+#
+# pos_tweets_bow_corpus = pickle.load(open(processed_data_dir + '/tweets_positive_bow_corpus.pkl', 'rb'))
+# neg_tweets_bow_corpus = pickle.load(open(processed_data_dir + '/tweets_negative_bow_corpus.pkl', 'rb'))
+#
+# pos_tweets_tfidf_model = models.TfidfModel.load(processed_data_dir + '/tfidf_model_pos_tweets.model')
+# neg_tweets_tfidf_model = models.TfidfModel.load(processed_data_dir + '/tfidf_model_neg_tweets.model')
+#
+# index_temp = get_tmpfile("index")
+# pos_tweets_sims = gensim.similarities.Similarity(output_prefix=index_temp,
+#                                           corpus=pos_tweets_tfidf_model[pos_tweets_bow_corpus],
+#                                           num_features=len(pos_tweets_dict))
+# neg_tweets_sims = gensim.similarities.Similarity(output_prefix=index_temp,
+#                                           corpus=neg_tweets_tfidf_model[neg_tweets_bow_corpus],
+#                                           num_features=len(neg_tweets_dict))
 # pos_tweets_sims.save(processed_data_dir + '/tweets_positive_sims.pkl')
 # neg_tweets_sims.save(processed_data_dir + '/tweets_negative_sims.pkl')
-pos_tweets_sims = similarities.Similarity.load(processed_data_dir + '/tweets_positive_sims.pkl')
-neg_tweets_sims = similarities.Similarity.load(processed_data_dir + '/tweets_negative_sims.pkl')
+# pos_tweets_sims = gensim.similarities.Similarity.load(processed_data_dir + '/tweets_positive_sims.pkl')
+# neg_tweets_sims = gensim.similarities.Similarity.load(processed_data_dir + '/tweets_negative_sims.pkl')
 
 def match_new_tweets(tweet_text, tweets_sims, tweets_tfidf_model, tweets_dictionary):
     """calculate similarity score of new tweet to existing tweets (pos/neg)"""
@@ -97,16 +102,16 @@ class TwitterTopic:
         self.tfidf_model = self.make_tfidf()
         self.lda_model = self.make_lda()
         # self.lda_model_tfidf = self.make_lda_tfidf()
-        try:
-            print('TRY')
-            self.preprocess_tweets()
-            self.dictionary = self.get_dictionary()
-            self.bow_corpus = self.get_doc2bow()
-            self.tfidf_model = self.make_tfidf()
-            self.lda_model = self.make_lda()
-            # self.lda_model_tfidf = self.make_lda_tfidf()
-        except:
-            pass
+        # try:
+        #     print('TRY')
+        #     self.preprocess_tweets()
+        #     self.dictionary = self.get_dictionary()
+        #     self.bow_corpus = self.get_doc2bow()
+        #     self.tfidf_model = self.make_tfidf()
+        #     self.lda_model = self.make_lda()
+        #     # self.lda_model_tfidf = self.make_lda_tfidf()
+        # except:
+        #     pass
 
     def preprocess_tweets(self):
         """methods to perform lemmatize and stem preprocessing steps on the data set."""
@@ -116,7 +121,7 @@ class TwitterTopic:
     def get_dictionary(self):
         """Create a dictionary from ‘processed_docs’ containing the number\
          of times a word appears in the training set."""
-        dictionary = gensim.corpora.Dictionary(self.tweets.docs)
+        dictionary = corpora.Dictionary(self.tweets.docs)
         dictionary.filter_extremes(no_below=15, no_above=0.5, keep_n=100000)
         return dictionary
 
@@ -132,13 +137,13 @@ class TwitterTopic:
 
     def make_lda(self):
         """Create LDA model object."""
-        lda_model = gensim.models.LdaMulticore(self.bow_corpus, num_topics=10,
+        lda_model = models.LdaMulticore(self.bow_corpus, num_topics=10,
                                                id2word=self.dictionary, passes=2, workers=2)
         return lda_model
 
     def make_lda_tfidf(self):
         """Running LDA using TF-IDF."""
-        lda_model_tfidf = gensim.models.LdaMulticore(self.tfidf_model[self.bow_corpus], num_topics=20,
+        lda_model_tfidf = models.LdaMulticore(self.tfidf_model[self.bow_corpus], num_topics=20,
                                                      id2word=self.dictionary, passes=2, workers=4)
         return lda_model_tfidf
 
@@ -182,13 +187,15 @@ def get_tweet_topic_score(all_company_tweets):
     neg_TT = TwitterTopic(neg_tweets)
     print('TEST2')
 
-    f = open(processed_data_dir + '/companies_tweets_topic_scores.txt', 'w')
+    f = open(processed_data_dir + '/companies_tweets_topic_scores_sampled.txt', 'w')
     for i, row in all_company_tweets.iterrows():
         text = row['tweets']
         pos_tweets_similarity, neg_tweets_similarity = 0.0, 0.0
+        # pos_tweets_similarity = pos_TT.match_new_tweets(str(text))
+        # neg_tweets_similarity = neg_TT.match_new_tweets(str(text))
         try:
-            pos_tweets_similarity = pos_TT.match_new_tweets(text)
-            neg_tweets_similarity = neg_TT.match_new_tweets(text)
+            pos_tweets_similarity = pos_TT.match_new_tweets(str(text))
+            neg_tweets_similarity = neg_TT.match_new_tweets(str(text))
         except:
             pass
         print("{:<10} {:<20.8} {:<20.8}".format(i, pos_tweets_similarity, neg_tweets_similarity))
@@ -198,12 +205,5 @@ def get_tweet_topic_score(all_company_tweets):
 
 
 def main():
-    # get_tweet_topic_score(all_tweets)
-    # print_topics()
-    pos_TT = TwitterTopic(pos_tweets)
-    print(pos_TT.tweets['docs'])
-    # with open(processed_data_dir + '/TwitterTopic_positive.pkl', 'wb') as f:
-    #     pickle.dump(pos_TT, f)
-    # pos_TT = pickle.load(open(processed_data_dir + '/TwitterTopic_positive.pkl', 'rb'))
-    # print(pos_TT.match_new_tweets('blabla'))
+    get_tweet_topic_score(all_tweets)
 # main()

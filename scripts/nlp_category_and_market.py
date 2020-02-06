@@ -15,8 +15,10 @@ import re
 # nlp = spacy.load("en_core_web_md")
 
 companies_df = pd.read_csv(processed_data_dir + '/companies_all_labeled.csv')
-category_counts = pd.read_csv(processed_data_dir + '/category_counts.csv')
-market_counts = pd.read_csv(processed_data_dir + '/market_counts.csv')
+# category_counts = pd.read_csv(processed_data_dir + '/category_counts.csv')
+# market_counts = pd.read_csv(processed_data_dir + '/market_counts.csv')
+category_counts = pd.read_csv(processed_data_dir + '/category_counts_sampled.csv')
+market_counts = pd.read_csv(processed_data_dir + '/market_counts_sampled.csv')
 
 def word_similarity_spacy_eng(word1, word2):
     """Similary of two words using SpaCy English pretrained model."""
@@ -41,7 +43,7 @@ def word_score(word, word_count_dict):
     return score_spacy
 
 def word_score_sklearn(word, word_count_df=category_counts):
-    """Score (using sklearn.text) for a word compared to word counts dataframe."""
+    """Score (using sklearn.text) for a word compared to word counts dataframe. Reason to use this - Fast!"""
     corpus = word_count_df.key.tolist()
     corpus.append(word)
     corpus_weight = word_count_df.pos_minus_neg_count.values
@@ -55,7 +57,7 @@ def get_category_score(companies_df):
     """Add "category score" to the companies df."""
     category_count_dict = pd.Series(category_counts.pos_minus_neg_count.values, index=category_counts.key).to_dict()
 
-    f = open(processed_data_dir + '/companies_all_category_scores_sklearn.txt', 'w')
+    f = open(processed_data_dir + '/companies_all_category_scores_sampled.txt', 'w')
     for i, category_list in enumerate(companies_df.category_list.fillna('|').to_list()):
         categories = re.split('\||\+', category_list)
         score = 0.0
@@ -75,7 +77,7 @@ def get_market_score(companies_df):
     """add "market score" to the companies df."""
     market_count_dict = pd.Series(market_counts.pos_minus_neg_count.values, index=market_counts.key).to_dict()
 
-    f = open(processed_data_dir + '/companies_all_market_scores_new.txt', 'w')
+    f = open(processed_data_dir + '/companies_all_market_scores_sampled.txt', 'w')
     for i, market_list in enumerate(companies_df.market.fillna('+').to_list()):
         markets = re.split('\+', market_list)
         score = 0.0
@@ -83,7 +85,8 @@ def get_market_score(companies_df):
             for market in markets:
                 if len(market) > 0:
                     # print(market, word_score(market, market_count_dict))
-                    score += word_score(market, market_count_dict)
+                    # score += word_score(market, market_count_dict)
+                    score += word_score_sklearn(market, word_count_df=market_counts)
         except:
             pass
         print('{:<20} {:<20.8f}'.format(i, score))
