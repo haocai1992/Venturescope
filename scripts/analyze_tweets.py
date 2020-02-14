@@ -1,15 +1,17 @@
-"""This script analyze the tweets (before vs. after series A) for one company (that has passed series B)
-and generates 'twitter scores' for a company."""
+"""This script analyze the tweets (before vs. after Seed Round) for one company and generates 
+numerical tweet features (tweet number, length, frequency, content richness and interactiveness) for a company."""
+
 from data.config import raw_data_dir, processed_data_dir, cleaned_data_dir, tweets_data_dir
 import pandas as pd
 import os
 import ast
 
-# cb dataframe for all companies that passed series B and has tweeted between series A and B in the year of 2014.
+# crunchbase dataframe for all companies that passed Seed Round and has tweeted after Seed Round.
 companies_path = processed_data_dir + '/companies_all_labeled.csv'
 companies_series_x_tweeted = pd.read_csv(companies_path)
 
-# functions to generate features/scores for a company's tweeting behavior before and after Series A.
+# functions to generate numerical features for a company's tweeting behavior before and after Seed Round (called
+# "Series A" here by mistake).
 class CompanyTweet:
     """A class to store company's tweeting behavior data."""
     def __init__(self, twitter_username):
@@ -23,13 +25,13 @@ class CompanyTweet:
             self.preA_tweets = self.tweets[self.tweets.timestamp < self.series_a_datetime]
             self.preA_timespan = (self.series_a_datetime.date() - self.preA_tweets.timestamp.dt.date.min()).days
         except:
-            pass
+            print('Error getting pre-A tweets and timespan.')
 
         try:
             self.postA_tweets = self.tweets[self.tweets.timestamp >= self.series_a_datetime]
             self.postA_timespan = (self.postA_tweets.timestamp.dt.date.max() - self.series_a_datetime.date()).days
         except:
-            pass
+            print('Error getting post-A tweets and timespan.')
 
     @staticmethod
     def get_series_a_datetime(twitter_username):
@@ -86,7 +88,7 @@ class CompanyTweet:
 
     @staticmethod
     def get_tweet_interactiveness(tweets):
-        """get the average 'tweet interactiveness'.
+        """get the average 'tweet interactiveness/engagement score'.
         features combined: likes, retweets, replies, is_replied, is_reply_to, reply_to_users."""
         tweet_interactiveness = tweets[['likes', 'retweets', 'replies']].sum(axis=1) + \
                                 tweets[['is_replied', 'is_reply_to']].astype(int).sum(axis=1) + \
@@ -133,17 +135,8 @@ class CompanyTweet:
             pass
         return s
 
-def main():
-    """save tweets analysis results to a dataframe."""
-    twitter_l = []
-    for i, row in companies_series_x_tweeted.iterrows():
-        CT = CompanyTweet(row.twitter_username)
-        print(i, row.twitter_username, row.first2last_funding_days, CT.comprehensive_scores())
-        twitter_l.append(CT.comprehensive_scores())
-    twitter_df = pd.DataFrame(twitter_l)
-    twitter_df.to_csv(processed_data_dir + '/company_tweets_stats_all.csv', index=False)
-
 def retrive_tweets(company_df):
+    """reads a company info df, returns the post-A tweets df."""
     tweets = []
     for i, username in enumerate(company_df.twitter_username):
         CT = CompanyTweet(username)
@@ -152,7 +145,7 @@ def retrive_tweets(company_df):
     tweets_df = pd.Series(tweets, index=company_df.index).reset_index()
     return tweets_df
 
-def main2():
+def save_company_tweets():
     """save successful and unsuccessful companies' tweets to 2 dataframes."""
     df = companies_series_x_tweeted
     pos_companies = df[(df.WILL == 1.0) & (df.postA_tweet_num > 100)].copy()
@@ -160,15 +153,8 @@ def main2():
     all_companies = df.copy()
 
     pos_tweets_df = retrive_tweets(pos_companies)
-    print(pos_tweets_df.count())
     neg_tweets_df = retrive_tweets(neg_companies)
-    print(neg_tweets_df.count())
     all_tweets_df = retrive_tweets(all_companies)
-    print(all_tweets_df.count())
-    # pos_tweets_df.to_csv(processed_data_dir + '/tweets_positive.csv', index=False)
-    # neg_tweets_df.to_csv(processed_data_dir + '/tweets_negative.csv', index=False)
     # all_tweets_df.to_csv(processed_data_dir + '/tweets_all.csv', index=False)
     return None
 
-# main()
-# main2()

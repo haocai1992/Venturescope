@@ -1,3 +1,4 @@
+"""This script is for parsing the 2012 crunchbase dataset (from CMU), which is in JSON format."""
 import pickle
 import sys
 import json
@@ -6,7 +7,7 @@ import html.entities
 import codecs
 
 class EntityParser:
-
+    """A class to read the JSON files in 2012 crunchbase dataset (from CMU)."""
     @staticmethod
     def LoadJsonEntity(filename):
         text = EntityParser.LoadStringEntityByFilename(filename)
@@ -44,16 +45,3 @@ class EntityParser:
             fid = None
         return fid
 
-def main():
-    js = EntityParser.LoadJsonEntity(path_to_file)
-    if js:
-        for i, item in enumerate(js):
-            print("=============")
-            print(i, item)
-            for key in list(item.keys()):
-                print(key, "=", item[key])
-    else:
-        print("no json object")
-
-# if __name__ == "__main__":
-#     main()
