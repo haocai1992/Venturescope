@@ -1,0 +1,607 @@
+key,positive_count,negative_count,total_count,pos_minus_neg_count
+software,435,214,649,221
+enterprise software,227,95,322,132
+mobile,360,235,595,125
+advertising,227,122,349,105
+analytics,155,53,208,102
+finance,147,71,218,76
+saas,121,45,166,76
+e-commerce,232,167,399,65
+video,84,31,115,53
+cloud computing,99,47,146,52
+social media,249,202,451,47
+big data,56,12,68,44
+education,96,53,149,43
+security,53,14,67,39
+content,51,17,68,34
+health and wellness,54,21,75,33
+games,138,106,244,32
+music,65,34,99,31
+technology,52,21,73,31
+search,81,51,132,30
+clean technology,43,13,56,30
+collaboration,47,19,66,28
+internet,77,50,127,27
+apps,82,58,140,24
+travel,62,39,101,23
+crowdsourcing,33,10,43,23
+startups,55,33,88,22
+marketplaces,51,29,80,22
+retail,44,22,66,22
+local,39,17,56,22
+sales and marketing,66,45,111,21
+hardware ,37,16,53,21
+ software,37,16,53,21
+health care,29,8,37,21
+media,41,22,63,19
+databases,29,10,39,19
+business intelligence,28,9,37,19
+crm,31,13,44,18
+digital media,26,8,34,18
+facebook applications,55,38,93,17
+payments,28,11,39,17
+developer apis,23,6,29,17
+big data analytics,21,4,25,17
+internet marketing,32,16,48,16
+television,32,16,48,16
+social media marketing,26,10,36,16
+open source,23,7,30,16
+ios,37,22,59,15
+biotechnology,17,2,19,15
+photography,45,31,76,14
+enterprises,28,14,42,14
+productivity software,21,7,28,14
+customer service,18,4,22,14
+reviews and recommendations,35,22,57,13
+publishing,35,22,57,13
+automotive,22,9,31,13
+b2b,21,8,29,13
+blogging platforms,21,8,29,13
+personalization,20,7,27,13
+seo,29,17,46,12
+real time,28,16,44,12
+peer-to-peer,19,7,26,12
+android,65,54,119,11
+real estate,27,16,43,11
+brand marketing,27,16,43,11
+photo sharing,17,6,23,11
+trading,15,4,19,11
+predictive analytics,14,3,17,11
+fashion,49,39,88,10
+cloud data services,12,2,14,10
+web development,53,44,97,9
+news,49,40,89,9
+design,29,20,49,9
+email,25,16,41,9
+hotels,17,8,25,9
+storage,14,5,19,9
+billing,13,4,17,9
+mobile payments,13,4,17,9
+sustainability,11,2,13,9
+flash sales,11,2,13,9
+ad targeting,10,1,11,9
+messaging,56,48,104,8
+web tools,21,13,34,8
+business services,18,10,28,8
+optimization,16,8,24,8
+information technology,15,7,22,8
+app marketing,14,6,20,8
+wireless,13,5,18,8
+app stores,12,4,16,8
+monetization,11,3,14,8
+task management,9,1,10,8
+systems,9,1,10,8
+subscription businesses,8,0,8,8
+services,18,11,29,7
+semantic search,14,7,21,7
+local search,13,6,19,7
+mobile commerce,13,6,19,7
+video games,11,4,15,7
+marketing automation,11,4,15,7
+mobile software tools,11,4,15,7
+translation,9,2,11,7
+communities,9,2,11,7
+data security,7,0,7,7
+human resources,18,12,30,6
+virtualization,17,11,28,6
+consumer electronics,14,8,22,6
+gift card,13,7,20,6
+accounting,11,5,16,6
+online scheduling,11,5,16,6
+tracking,11,5,16,6
+internet of things,11,5,16,6
+home & garden,11,5,16,6
+meeting software,10,4,14,6
+cloud management,9,3,12,6
+social media management,8,2,10,6
+navigation,8,2,10,6
+language learning,7,1,8,6
+p2p money transfer,6,0,6,6
+communications hardware,6,0,6,6
+finance technology,6,0,6,6
+opinions,6,0,6,6
+pets,6,0,6,6
+cloud security,6,0,6,6
+credit,6,0,6,6
+entertainment,35,30,65,5
+video streaming,29,24,53,5
+ipad,27,22,49,5
+lifestyle,18,13,31,5
+paas,15,10,25,5
+gamification,15,10,25,5
+mobile games,14,9,23,5
+transportation,13,8,21,5
+auctions,11,6,17,5
+green,9,4,13,5
+energy efficiency,9,4,13,5
+social television,9,4,13,5
+network security,9,4,13,5
+gps,8,3,11,5
+crowdfunding,8,3,11,5
+machine learning,7,2,9,5
+direct marketing,7,2,9,5
+reputation,7,2,9,5
+trusted networks,7,2,9,5
+content discovery,6,1,7,5
+investment management,6,1,7,5
+forums,6,1,7,5
+organic food,5,0,5,5
+customer support tools,5,0,5,5
+mobile devices,5,0,5,5
+mobile emergency&health,5,0,5,5
+windows phone 7,5,0,5,5
+mobile security,5,0,5,5
+mobile video,5,0,5,5
+social network media,60,56,116,4
+recruiting,19,15,34,4
+colleges,15,11,26,4
+chat,14,10,24,4
+weddings,10,6,16,4
+mobile advertising,9,5,14,4
+financial services,8,4,12,4
+hardware,8,4,12,4
+data visualization,7,3,10,4
+game,7,3,10,4
+private social networking,7,3,10,4
+event management,7,3,10,4
+personal finance,7,3,10,4
+advertising platforms,6,2,8,4
+electronic health records,6,2,8,4
+point of sale,6,2,8,4
+wine and spirits,6,2,8,4
+video on demand,5,1,6,4
+physicians,5,1,6,4
+mobile coupons,5,1,6,4
+enterprise search,5,1,6,4
+social business,5,1,6,4
+internet radio market,4,0,4,4
+displays,4,0,4,4
+construction,4,0,4,4
+cloud infrastructure,4,0,4,4
+enterprise 2.0,4,0,4,4
+location based services,47,44,91,3
+social games,21,18,39,3
+employment,17,14,31,3
+telecommunications,11,8,19,3
+incentives,11,8,19,3
+consumers,9,6,15,3
+career management,9,6,15,3
+medical,8,5,13,3
+consumer internet,8,5,13,3
+data integration,8,5,13,3
+teachers,7,4,11,3
+social crm,7,4,11,3
+training,7,4,11,3
+journalism,6,3,9,3
+broadcasting,6,3,9,3
+ipod touch,6,3,9,3
+online travel,6,3,9,3
+guides,6,3,9,3
+doctors,5,2,7,3
+microblogging,5,2,7,3
+web presence management,5,2,7,3
+tech field support,5,2,7,3
+flash storage,5,2,7,3
+credit cards,5,2,7,3
+local advertising,5,2,7,3
+recipes,5,2,7,3
+interest graph,5,2,7,3
+shoes,4,1,5,3
+price comparison,4,1,5,3
+mobile health,4,1,5,3
+game mechanics,4,1,5,3
+k-12 education,4,1,5,3
+video conferencing,4,1,5,3
+groceries,4,1,5,3
+psychology,4,1,5,3
+lead management,3,0,3,3
+aerospace,3,0,3,3
+life sciences,3,0,3,3
+ local,3,0,3,3
+unifed communications,3,0,3,3
+it management,3,0,3,3
+cyber,3,0,3,3
+social ,3,0,3,3
+law enforcement,3,0,3,3
+data centers,3,0,3,3
+social recruiting,3,0,3,3
+digital signage,3,0,3,3
+sales automation,3,0,3,3
+application platforms,3,0,3,3
+ mobile ,3,0,3,3
+nutrition,3,0,3,3
+social commerce,24,22,46,2
+loyalty programs,13,11,24,2
+project management,12,10,22,2
+ediscovery,12,10,22,2
+web cms,11,9,20,2
+ticketing,11,9,20,2
+fitness,11,9,20,2
+audio,11,9,20,2
+maps,10,8,18,2
+social search,9,7,16,2
+politics,9,7,16,2
+clean energy,8,6,14,2
+public transportation,8,6,14,2
+infrastructure,8,6,14,2
+artificial intelligence,7,5,12,2
+semantic web,7,5,12,2
+film,6,4,10,2
+skill assessment,6,4,10,2
+vacation rentals,5,3,8,2
+market research,5,3,8,2
+electronics,5,3,8,2
+nightclubs,5,3,8,2
+mhealth,4,2,6,2
+gambling,4,2,6,2
+virtual worlds,4,2,6,2
+solar,4,2,6,2
+consumer goods,4,2,6,2
+insurance,4,2,6,2
+cooking,4,2,6,2
+beauty,4,2,6,2
+social media monitoring,4,2,6,2
+synchronization,4,2,6,2
+jewelry,4,2,6,2
+diy,4,2,6,2
+proximity internet,3,1,4,2
+health and insurance,3,1,4,2
+it and cybersecurity,3,1,4,2
+social travel,3,1,4,2
+office space,3,1,4,2
+banking,3,1,4,2
+performance marketing,3,1,4,2
+identity management,3,1,4,2
+archiving,3,1,4,2
+rim,3,1,4,2
+gadget,3,1,4,2
+architecture,3,1,4,2
+home renovation,3,1,4,2
+mac,3,1,4,2
+logistics,3,1,4,2
+utilities,3,1,4,2
+soccer,3,1,4,2
+leisure,3,1,4,2
+recycling,3,1,4,2
+development platforms,2,0,2,2
+deep information technology,2,0,2,2
+contact centers,2,0,2,2
+entertainment industry,2,0,2,2
+taxis,2,0,2,2
+handmade,2,0,2,2
+video editing,2,0,2,2
+fraud detection,2,0,2,2
+developer tools,2,0,2,2
+commercial real estate,2,0,2,2
+hospitals,2,0,2,2
+comparison shopping,2,0,2,2
+online gaming,2,0,2,2
+music services,2,0,2,2
+indoor positioning,2,0,2,2
+computers,2,0,2,2
+toys,2,0,2,2
+kinect,2,0,2,2
+home decor,2,0,2,2
+water,2,0,2,2
+batteries,2,0,2,2
+spam filtering,2,0,2,2
+homeland security,2,0,2,2
+application performance monitoring,2,0,2,2
+intellectual property,2,0,2,2
+agriculture,2,0,2,2
+portals,2,0,2,2
+retail technology,2,0,2,2
+shipping,2,0,2,2
+advertising exchanges,2,0,2,2
+home automation,2,0,2,2
+nanotechnology,2,0,2,2
+computer vision,2,0,2,2
+online shopping,12,11,23,1
+privacy,11,10,21,1
+identity,9,8,17,1
+voip,8,7,15,1
+all students,7,6,13,1
+promotional,7,6,13,1
+email marketing,7,6,13,1
+nfc,6,5,11,1
+printing,6,5,11,1
+tablets,6,5,11,1
+textbooks,6,5,11,1
+outsourcing,5,4,9,1
+browser extensions,5,4,9,1
+artists globally,4,3,7,1
+health care information technology,4,3,7,1
+google apps,4,3,7,1
+search marketing,4,3,7,1
+local based services,4,3,7,1
+presentations,4,3,7,1
+freemium,4,3,7,1
+surveys,4,3,7,1
+internet tv,4,3,7,1
+geospatial,3,2,5,1
+mass customization,3,2,5,1
+mobility,3,2,5,1
+world domination,3,2,5,1
+organic,3,2,5,1
+fantasy sports,3,2,5,1
+universities,3,2,5,1
+rfid,3,2,5,1
+collectibles,3,2,5,1
+content syndication,3,2,5,1
+wholesale,2,1,3,1
+internet service providers,2,1,3,1
+telephony,2,1,3,1
+personal health,2,1,3,1
+dental,2,1,3,1
+cad,2,1,3,1
+transaction processing,2,1,3,1
+flowers,2,1,3,1
+information security,2,1,3,1
+interface design,2,1,3,1
+domains,2,1,3,1
+writers,2,1,3,1
+m2m,2,1,3,1
+procurement,2,1,3,1
+energy it,2,1,3,1
+in-flight entertainment,1,0,1,1
+corporate wellness,1,0,1,1
+diagnostics,1,0,1,1
+medical devices,1,0,1,1
+ict,1,0,1,1
+ventures for good,1,0,1,1
+residential solar,1,0,1,1
+interior design,1,0,1,1
+3d printing,1,0,1,1
+human resource automation,1,0,1,1
+e-commerce platforms,1,0,1,1
+natural resources,1,0,1,1
+rapidly expanding,1,0,1,1
+music venues,1,0,1,1
+social opinion platform,1,0,1,1
+visual search,1,0,1,1
+coffee,1,0,1,1
+robotics,1,0,1,1
+limousines,1,0,1,1
+bitcoin,1,0,1,1
+outdoor advertising,1,0,1,1
+lasers,1,0,1,1
+business productivity,1,0,1,1
+coworking,1,0,1,1
+defense,1,0,1,1
+wire,1,0,1,1
+enterprise resource planning,1,0,1,1
+information services,1,0,1,1
+oil and gas,1,0,1,1
+q&a,1,0,1,1
+3d technology,1,0,1,1
+engineering firms,1,0,1,1
+multi-level marketing,1,0,1,1
+cloud-based music,1,0,1,1
+early-stage technology,1,0,1,1
+speech recognition,1,0,1,1
+mobile enterprise,1,0,1,1
+pc gaming,1,0,1,1
+specialty foods,1,0,1,1
+personal branding,1,0,1,1
+independent music labels,1,0,1,1
+social media platforms,1,0,1,1
+electrical distribution,1,0,1,1
+financial exchanges,1,0,1,1
+twin-tip skis,1,0,1,1
+serious games,1,0,1,1
+fleet management,1,0,1,1
+diabetes,1,0,1,1
+mobile analytics,1,0,1,1
+online identity,1,0,1,1
+wealth management,1,0,1,1
+app discovery,1,0,1,1
+content creators,1,0,1,1
+wind,1,0,1,1
+families,1,0,1,1
+farming,1,0,1,1
+social media agent,1,0,1,1
+health services industry,1,0,1,1
+console gaming,1,0,1,1
+industrial energy efficiency,1,0,1,1
+sunglasses,1,0,1,1
+postal and courier services,1,0,1,1
+biometrics,1,0,1,1
+embedded hardware and software,1,0,1,1
+digital entertainment,1,0,1,1
+events,30,30,60,0
+hospitality,28,28,56,0
+twitter applications,26,26,52,0
+restaurants,18,18,36,0
+document management,6,6,12,0
+contact management,5,5,10,0
+concerts,5,5,10,0
+career planning,4,4,8,0
+service providers,4,4,8,0
+environmental innovation,3,3,6,0
+theatre,3,3,6,0
+mobile social,3,3,6,0
+brokers,3,3,6,0
+data mining,3,3,6,0
+high schools,3,3,6,0
+travel & tourism,2,2,4,0
+sensors,2,2,4,0
+social media advertising,2,2,4,0
+smart grid,2,2,4,0
+dod/military,2,2,4,0
+property management,2,2,4,0
+craigslist killers,2,2,4,0
+digital rights management,2,2,4,0
+algorithms,2,2,4,0
+auto,2,2,4,0
+photo editing,2,2,4,0
+email newsletters,2,2,4,0
+pharmaceuticals,2,2,4,0
+charter schools,1,1,2,0
+content delivery,1,1,2,0
+webos,1,1,2,0
+governments,1,1,2,0
+simulation,1,1,2,0
+advertising networks,1,1,2,0
+contests,1,1,2,0
+spas,1,1,2,0
+corporate training,1,1,2,0
+cosmetics,1,1,2,0
+data center infrastructure,1,1,2,0
+clinical trials,1,1,2,0
+freetoplay gaming,1,1,2,0
+consumer behavior,1,1,2,0
+licensing,1,1,2,0
+business information systems,1,1,2,0
+educational games,1,1,2,0
+product design,1,1,2,0
+outdoors,1,1,2,0
+commodities,1,1,2,0
+niche specific,1,1,2,0
+supply chain management,1,1,2,0
+web browsers,1,1,2,0
+estimation and quoting,1,1,2,0
+hedge funds,1,1,2,0
+networking,57,58,115,-1
+sports,34,35,69,-1
+web design,13,14,27,-1
+nonprofits,12,13,25,-1
+art,12,13,25,-1
+lead generation,11,12,23,-1
+venture capital,11,12,23,-1
+cars,8,9,17,-1
+freelancers,7,8,15,-1
+collaborative consumption,7,8,15,-1
+local businesses,6,7,13,-1
+social buying,6,7,13,-1
+graphics,5,6,11,-1
+manufacturing,5,6,11,-1
+3d,4,5,9,-1
+mmo games,4,5,9,-1
+image recognition,3,4,7,-1
+video chat,3,4,7,-1
+iaas,3,4,7,-1
+semiconductors,2,3,5,-1
+bridging online and offline,2,3,5,-1
+exercise,2,3,5,-1
+celebrity,2,3,5,-1
+energy management,2,3,5,-1
+risk management,2,3,5,-1
+women,2,3,5,-1
+test and measurement,1,2,3,-1
+new product development,1,2,3,-1
+industrial,1,2,3,-1
+energy,1,2,3,-1
+virtual workforces,1,2,3,-1
+professional networking,1,2,3,-1
+plumbers,1,2,3,-1
+demographies,1,2,3,-1
+local coupons,1,2,3,-1
+mobile shopping,1,2,3,-1
+e-books,1,2,3,-1
+lighting,1,2,3,-1
+software compliance,1,2,3,-1
+non profit,1,2,3,-1
+neuroscience,0,1,1,-1
+gift registries,0,1,1,-1
+english-speaking,0,1,1,-1
+gold,0,1,1,-1
+business analytics,0,1,1,-1
+emerging markets,0,1,1,-1
+franchises,0,1,1,-1
+realtors,0,1,1,-1
+moneymaking,0,1,1,-1
+direct sales,0,1,1,-1
+registrars,0,1,1,-1
+food processing,0,1,1,-1
+lingerie,0,1,1,-1
+carbon,0,1,1,-1
+indians,0,1,1,-1
+direct advertising,0,1,1,-1
+online video advertising,0,1,1,-1
+craft beer,0,1,1,-1
+edutainment,0,1,1,-1
+university students,0,1,1,-1
+intellectual asset management,0,1,1,-1
+chemicals,0,1,1,-1
+cyber security,0,1,1,-1
+text analytics,0,1,1,-1
+bicycles,0,1,1,-1
+comics,0,1,1,-1
+web hosting,27,29,56,-2
+testing,8,10,18,-2
+professional services,5,7,12,-2
+tutoring,4,6,10,-2
+visualization,3,5,8,-2
+augmented reality,3,5,8,-2
+business development,3,5,8,-2
+social bookmarking,2,4,6,-2
+adventure travel,2,4,6,-2
+vertical search,2,4,6,-2
+all markets,1,3,4,-2
+advice,1,3,4,-2
+sns,1,3,4,-2
+polling,1,3,4,-2
+rental housing,0,2,2,-2
+teenagers,0,2,2,-2
+online auctions,0,2,2,-2
+virtual currency,0,2,2,-2
+sponsorship,0,2,2,-2
+usability,0,2,2,-2
+angels,0,2,2,-2
+product development services,0,2,2,-2
+iphone,69,72,141,-3
+coupons,19,22,41,-3
+small and medium businesses,16,19,35,-3
+parenting,6,9,15,-3
+group buying,5,8,13,-3
+creative,4,7,11,-3
+stock exchanges,3,6,9,-3
+distribution,2,5,7,-3
+renewable energies,2,5,7,-3
+certification test,2,5,7,-3
+qr codes,2,5,7,-3
+charity,2,5,7,-3
+natural language processing,1,4,5,-3
+nightlife,1,4,5,-3
+babies,1,4,5,-3
+staffing firms,0,3,3,-3
+humanitarian,0,3,3,-3
+file sharing,20,24,44,-4
+sms,11,15,26,-4
+public relations,8,12,20,-4
+classifieds,4,8,12,-4
+entrepreneur,4,8,12,-4
+virtual goods,1,5,6,-4
+knowledge management,0,4,4,-4
+kids,9,14,23,-5
+online rental,3,8,11,-5
+tourism,3,8,11,-5
+user experience design,2,7,9,-5
+online reservations,2,7,9,-5
+incubators,1,6,7,-5
+discounts,10,16,26,-6
+online dating,6,12,18,-6
+legal,5,11,16,-6
+shopping,19,27,46,-8
+consulting,15,23,38,-8
+curated web,272,282,554,-10

@@ -1,4 +1,4 @@
-"""This file is the configuration for data directories and paths."""
+"""This file is the configuration for local data directories and paths (too large to upload to github."""
 
 home_dir = '/Users/caihao'
 # home_dir = '/home/caihao'

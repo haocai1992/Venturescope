@@ -1,1 +1,0 @@
-from projectname.projectname import config
