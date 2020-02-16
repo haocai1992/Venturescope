@@ -1,18 +1,19 @@
-"""This script analyzes tweets sentiments using NLP."""
-from data.config import raw_data_dir, processed_data_dir, cleaned_data_dir
-import pandas as pd
+"""This script analyzes tweets sentiments using NLP, and engineers a "tweet sentiment score"."""
 
-import nltk
+# import nltk
 # nltk.download('vader_lexicon')
+import pandas as pd
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 sid = SentimentIntensityAnalyzer()
 
 from analyze_tweets import CompanyTweet
+from data.config import processed_data_dir
 from nlp_tweets_topic import lemmatize_stemming, preprocess
 
 all_companies = pd.read_csv(processed_data_dir + '/companies_all_labeled.csv')
 
 def preprocess_sentence(text):
+    """Preprocess sentences (stemming and lemmatization followed by joining words)."""
     sentence = ' '.join(preprocess(text))
     return sentence
 
@@ -30,7 +31,7 @@ class TweetSentiment(CompanyTweet):
             self.sentiments = self.analyze_sentiment(self.processed_tweets)
             self.sentiment_score = self.calculate_sentiment_score()
         except:
-            pass
+            print('ERROR calculating sentiment score!')
 
     def select_tweets(self):
         """select tweets to do sentiment analysis on. For now, look at first 100 tweets post series A."""
@@ -60,7 +61,8 @@ class TweetSentiment(CompanyTweet):
         score = self.sentiments.mean().to_dict()
         return score
 
-def main():
+def write_sentiment_score():
+    """write sentiment scores for all companies to a file."""
     f = open(processed_data_dir + '/companies_tweets_sentiment_scores.txt', 'w')
     for i, row in all_companies.iterrows():
         username = row.twitter_username
@@ -73,7 +75,7 @@ def main():
             pos_score = s_score['pos']
             compound_score = s_score['compound']
         except:
-            pass
+            print("ERROR calculating sentiment score!")
 
         print("{:<10} {:<25} {:<15.8} {:<15.8} {:<15.8} {:<15.8}"\
               .format(i, username, neg_score, neu_score, pos_score, compound_score))
@@ -81,5 +83,3 @@ def main():
               .format(i, username, neg_score, neu_score, pos_score, compound_score))
     f.close()
     return
-
-# main()

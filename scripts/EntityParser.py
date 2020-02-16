@@ -1,10 +1,7 @@
 """This script is for parsing the 2012 crunchbase dataset (from CMU), which is in JSON format."""
+
 import pickle
-import sys
 import json
-import re
-import html.entities
-import codecs
 
 class EntityParser:
     """A class to read the JSON files in 2012 crunchbase dataset (from CMU)."""

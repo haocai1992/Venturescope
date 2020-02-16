@@ -1,4 +1,5 @@
 """This script cleans the 2014 crunchbase dataset (from datanerd)."""
+
 import pandas as pd
 
 cb_data_dir = '/Users/caihao/PycharmProjects/insight-project/data/raw/cb_2014_datanerd'

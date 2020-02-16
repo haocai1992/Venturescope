@@ -1,18 +1,18 @@
 """This script analyzes the 'category' and 'market' columns (text data), and engineers two numerical\
-features (using NLP word2vec-clustering) to included in classification models."""
+features (using NLP word2vec-clustering)."""
+
+import re
 import sys
 sys.path.append("/Users/caihao/PycharmProjects/insight_project/")
-from data.config import raw_data_dir, processed_data_dir, cleaned_data_dir, tweets_data_dir
-# import spacy
-# from gensim.models import KeyedVectors
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-import pandas as pd
 import numpy as np
-# import pickle
-import re
-
+import pandas as pd
+# import spacy
 # nlp = spacy.load("en_core_web_md")
+# from gensim.models import KeyedVectors
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+from data.config import processed_data_dir
 
 companies_df = pd.read_csv(processed_data_dir + '/companies_all_labeled.csv')
 # category_counts = pd.read_csv(processed_data_dir + '/category_counts.csv')
@@ -50,7 +50,6 @@ def word_score_sklearn(word, word_count_df=category_counts):
     tfidf = TfidfVectorizer().fit_transform(corpus)
     pairwise_similarity = (tfidf * tfidf.T).toarray()[-1, :-1]
     score_sklearn = np.multiply(corpus_weight, pairwise_similarity).sum()
-
     return score_sklearn
 
 def get_category_score(companies_df):
@@ -67,7 +66,7 @@ def get_category_score(companies_df):
                     # score += word_score(category, category_count_dict)
                     score += word_score_sklearn(category, word_count_df=category_counts)
         except:
-            pass
+            print("ERROR writing category score!")
         print('{:<20} {:<20.8f}'.format(i, score))
         f.write('{:<20} {:<20.8f}\n'.format(i, score))
     f.close()
@@ -84,11 +83,10 @@ def get_market_score(companies_df):
         try:
             for market in markets:
                 if len(market) > 0:
-                    # print(market, word_score(market, market_count_dict))
                     # score += word_score(market, market_count_dict)
                     score += word_score_sklearn(market, word_count_df=market_counts)
         except:
-            pass
+            print("ERROR writing category score!")
         print('{:<20} {:<20.8f}'.format(i, score))
         f.write('{:<20} {:<20.8f}\n'.format(i, score))
     f.close()

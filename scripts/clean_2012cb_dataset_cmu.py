@@ -1,7 +1,8 @@
 """This script cleans the 2012 crunchbase dataset (from CMU)."""
+
 import os
-from EntityParser import EntityParser
 import pandas as pd
+from EntityParser import EntityParser
 
 # data directories.
 raw_data_dir = '/Users/caihao/Dropbox/Insight_Jan2020/datasets/cmu_crunchbase_data'

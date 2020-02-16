@@ -1,10 +1,10 @@
 """This script analyze the tweets (before vs. after Seed Round) for one company and generates 
 numerical tweet features (tweet number, length, frequency, content richness and interactiveness) for a company."""
 
-from data.config import raw_data_dir, processed_data_dir, cleaned_data_dir, tweets_data_dir
-import pandas as pd
 import os
 import ast
+import pandas as pd
+from data.config import processed_data_dir, tweets_data_dir
 
 # crunchbase dataframe for all companies that passed Seed Round and has tweeted after Seed Round.
 companies_path = processed_data_dir + '/companies_all_labeled.csv'
