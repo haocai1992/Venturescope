@@ -20,8 +20,13 @@ As a result, when it comes to selection of startups for Series A funding, VC oft
 ## Setting up Venturescope
 After cloning this repository, run the following code:
 ```
-cd Venturescope
+cd insight_project
 pip3 install -r requirements.txt
+```
+or:
+```
+cd insight_project
+conda env create -f environment.yml
 ```
 This repository contains scripts, notebooks and Flask App source code. Due to storage space limit, raw data is not uploaded. (If you want to play with raw data yourself, send me an email.) Cleaned data is available in the `venturescope/venturescope/data/` directory. You can explore `scripts/` and `notebooks/` directory to check out my EDA, feature engineering, and model training!
 
