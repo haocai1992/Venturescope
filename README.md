@@ -98,7 +98,7 @@ The highest F1-score is 0.81 from Gradient Boosting. Confusion Matrix and AUC cu
 More than 80% of the success/failure were predicted using this model. This means that in Series A funding, more than 30% of failed VC investments could have been avoided!
 
 ## Limits and Future Directions
-Venturescope was built during a short time period (3 weeks) as part of Insight Data Science program. Currently, it is not capable do real-time tweet retriving and analysis for starups. It also gives poor prediction results for startups that don't have Twitter accounts (which is very common in certain industries, e.g. Healthcare). Future improvements include:
+Venturescope was built during a short time period (3 weeks) as part of Insight Data Science program. Currently, it is not capable to do real-time tweet retriving and analysis for starups. It also gives poor prediction results for startups that don't have Twitter accounts (which is very common in certain industries, e.g. Healthcare). Future improvements include:
 * Real-time online tweet analysis of any given startup
 * Engineering and incorporation of people-related features in the model
   * investor features
