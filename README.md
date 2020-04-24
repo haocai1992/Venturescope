@@ -1,6 +1,11 @@
 # Venturescope: Predicting startup's survival from their tweets
 **Venturescope** is a predictive and analytical tool for venture capital investors to obtain data-driven insights about early-stage startups. This is a product from my Insight Data Science project (Jan 2020 cohort, Toronto).<br></br>
-Website: www.datascipro.me.
+
+~~Website: www.datascipro.me.~~
+
+New website: [https://venturescope.herokuapp.com/](https://venturescope.herokuapp.com/)
+
+(Updated on Apr 24, 2020) This app was moved from Amazon AWS to Heroku due to server cost.
 
 ## Problem
 Venture capital is a high-risk, high-reward industry. Early-stage startups has failure rate of >95% after Seed-round funding, yet the successful ones become unicorn companies (e.g. FaceBook, Twitter, Alibaba), and generates 100x returns. It therefore becomes vital for VC investors to pick out the promising startups and avoid ones with high risk in their portfolio management. <br></br>
