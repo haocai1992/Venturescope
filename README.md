@@ -120,3 +120,4 @@ Venturescope was built during a short time period (3 weeks) as part of Insight D
 * **Author**: Hao Cai
 * **Email**: haocai3@gmail.com
 * **Linkedin**: https://www.linkedin.com/in/haocai1992/
+* **Github**: https://github.com/haocai1992?tab=repositories
