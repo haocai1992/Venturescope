@@ -1,7 +1,7 @@
 ![](banner.jpg)
 *(Photo by <a href="https://unsplash.com/@lazizli?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Lala Azizli</a> on <a href="https://unsplash.com/s/photos/startup?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>)*
 
-This repo contains the source code for [Venturescope](https://haocai1992.github.io/data/science/2022/01/13/build-recommendation-system-using-scala-spark-and-hadoop.html), a NLP-powered web app that predict's startup's success from their tweets.
+This repo contains the source code for [Venturescope](https://venturescope.herokuapp.com/), a NLP-powered web app that predict's startup's success from their tweets.
 
 # Venturescope: Predicting startup's survival from their tweets
 **Venturescope** is a predictive and analytical tool for venture capital investors to obtain data-driven insights about early-stage startups. This is a product from my Insight Data Science project (Jan 2020 cohort, Toronto).<br></br>
